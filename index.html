@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1b1442">
+<title>Lưu Bút Thanh Xuân 11/7 – THPT Ông Ích Khiêm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #2b2350;
+  --pink: #ffb6d5;
+  --rose: #e64980;
+  --gold: #ffd98a;
+  --cyan: #99e9f2;
+  --paper: #fff8ec;
+  --glass: rgba(255, 255, 255, 0.14);
+  --border: rgba(255, 255, 255, 0.28);
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #140f33;
+  font-family: 'Quicksand', 'Be Vietnam Pro', sans-serif;
+  color: #fff;
+  overscroll-behavior: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 182, 213, 0.22), transparent 55%),
+    linear-gradient(160deg, #1b1442 0%, #3a2a7a 38%, #c16a9c 72%, #f6c47a 100%);
+  transition: filter 0.8s ease;
+  z-index: 0;
+}
+#fx {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Quản lý các màn hình */
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.75s ease, visibility 0.75s, transform 0.75s ease;
+  transform: scale(1.03);
+}
+.screen.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+}
+.script {
+  font-family: 'Dancing Script', cursive;
+}
+
+/* Nút bấm chuẩn */
+.btn {
+  border: 0;
+  cursor: pointer;
+  font: 700 15.5px 'Quicksand', sans-serif;
+  color: var(--ink);
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffe3a3, #ffb6d5);
+  box-shadow: 0 8px 26px rgba(255, 182, 213, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.btn:active {
+  transform: scale(0.95);
+}
+.btn.pulse {
+  animation: beat 1.7s infinite;
+}
+.btn.ghost {
+  animation: none;
+  background: var(--glass);
+  color: #fff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: none;
+  border: 1px solid var(--border);
+  font-size: 13.5px;
+  padding: 9px 18px;
+}
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.07); }
+  50% { transform: scale(1); }
+  75% { transform: scale(1.04); }
+}
+
+/* ==================== THANH ĐIỀU HƯỚNG DƯỚI ĐÁY (DOCK) ==================== */
+.nav-dock {
+  position: fixed;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  z-index: 9;
+  display: flex;
+  gap: 5px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(22, 15, 52, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.55s cubic-bezier(.2, 1.1, .3, 1), opacity 0.45s;
+  max-width: 96vw;
+  overflow-x: auto;
+}
+.nav-dock.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.nav-item {
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.78);
+  font: 700 12.5px 'Quicksand', sans-serif;
+  padding: 8px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s;
+}
+.nav-item.active {
+  background: linear-gradient(135deg, #ffe3a3, #ffb6d5);
+  color: var(--ink);
+  box-shadow: 0 4px 14px rgba(255, 182, 213, 0.45);
+}
+
+/* ==================== MÀN HÌNH 1: PHONG BÌ MỞ ĐẦU ==================== */
+#s1 {
+  text-align: center;
+  padding: 24px;
+  gap: 18px;
+}
+.top-tag {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 12px rgba(255, 182, 213, 0.6);
+}
+.env-wrap {
+  perspective: 900px;
+  animation: float 4s ease-in-out infinite;
+  cursor: pointer;
+  margin: 6px 0;
+}
+@keyframes float {
+  50% { transform: translateY(-10px); }
+}
+.env {
+  position: relative;
+  width: min(70vw, 270px);
+  aspect-ratio: 1.48;
+  transform: rotateX(10deg) rotateY(-6deg);
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  filter: drop-shadow(0 0 32px rgba(255, 195, 145, 0.55));
+}
+.env .body {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #fff3df, #ffd4e5);
+  border-radius: 12px;
+  border: 1.5px dashed rgba(214, 51, 108, 0.28);
+}
+.env .flap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 58%;
+  background: linear-gradient(160deg, #fff0f6, #ffc2da);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 12px 12px 0 0;
+  transform-origin: top center;
+  transition: transform 0.55s ease;
+}
+.env.open .flap {
+  transform: rotateX(180deg);
+}
+.env .seal {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff9eb8, #d6336c);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  color: #fff;
+  animation: beat 1.4s infinite;
+  box-shadow: 0 4px 18px rgba(214, 51, 108, 0.75);
+}
+.env .class-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  text-align: center;
+  font-family: 'Dancing Script', cursive;
+  font-size: 26px;
+  font-weight: 700;
+  color: #a63a69;
+}
+.to {
+  font-size: clamp(24px, 6.5vw, 38px);
+  line-height: 1.28;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+}
+.to small {
+  display: block;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.42em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 4px;
+  color: var(--gold);
+}
+.audio-note {
+  font-size: 12.5px;
+  opacity: 0.75;
+}
+
+/* ==================== MÀN HÌNH 2: VÒNG XOAY 3D ==================== */
+#s2 {
+  justify-content: center;
+}
+.screen-head {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  left: 16px;
+  right: 68px;
+  text-align: center;
+  z-index: 3;
+  pointer-events: none;
+}
+.screen-head h1 {
+  font-size: clamp(24px, 6vw, 36px);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+}
+.screen-head p {
+  font-size: 12.5px;
+  color: var(--gold);
+  opacity: 0.9;
+}
+.scene {
+  width: 100%;
+  height: 58vh;
+  perspective: 1100px;
+  perspective-origin: 50% 45%;
+  cursor: grab;
+  touch-action: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.scene.drag {
+  cursor: grabbing;
+}
+.ring {
+  position: relative;
+  width: var(--cw);
+  height: var(--ch);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.card {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.7s cubic-bezier(.2, .85, .3, 1);
+}
+.polaroid {
+  width: 100%;
+  height: 100%;
+  background: var(--paper);
+  padding: 8px 8px 32px;
+  border-radius: 5px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  position: relative;
+  transition: transform 0.25s;
+}
+.polaroid:hover {
+  transform: translateY(-5px) scale(1.03);
+}
+.polaroid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 3px;
+  pointer-events: none;
+  background: #ddd;
+}
+.polaroid span {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 6px;
+  text-align: center;
+  font: 600 15.5px 'Dancing Script', cursive;
+  color: #5b4a6e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.s2-tools {
+  position: absolute;
+  bottom: calc(76px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.hint {
+  font-size: 12.5px;
+  opacity: 0.78;
+  pointer-events: none;
+}
+
+/* ==================== MÀN HÌNH 3: 41 THÀNH VIÊN LỚP 11/7 ==================== */
+#s3 {
+  justify-content: flex-start;
+  padding: max(14px, env(safe-area-inset-top)) 14px calc(74px + env(safe-area-inset-bottom));
+}
+.s3-header {
+  width: min(96vw, 960px);
+  text-align: center;
+  margin-bottom: 8px;
+  padding-right: 42px;
+}
+.s3-header h2 {
+  font-size: clamp(23px, 5.5vw, 33px);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+.s3-header p {
+  font-size: 12px;
+  color: var(--gold);
+  opacity: 0.9;
+}
+.roster-controls {
+  width: min(96vw, 960px);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.search-input {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font: 600 13px 'Quicksand', sans-serif;
+  outline: none;
+  width: min(48vw, 210px);
+  backdrop-filter: blur(8px);
+}
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.72);
+}
+.filter-pills {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  max-width: 96vw;
+  padding: 2px;
+}
+.pill {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font: 600 12px 'Quicksand', sans-serif;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pill.active {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--gold);
+  font-weight: 700;
+}
+.pill.lucky {
+  background: linear-gradient(135deg, #ff9eb8, #ffd98a);
+  color: var(--ink);
+  border: 0;
+  font-weight: 700;
+}
+
+/* Lưới 41 học sinh */
+.student-grid {
+  width: min(96vw, 960px);
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(122px, 1fr));
+  gap: 11px;
+  padding: 6px 4px 18px;
+  align-content: start;
+}
+.st-card {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 7px 7px 9px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: transform 0.22s, box-shadow 0.22s;
+  position: relative;
+}
+.st-card.leader {
+  border: 2px solid #f59f00;
+  background: linear-gradient(180deg, #fffdf7, #fff4db);
+}
+.st-card:hover {
+  transform: translateY(-4px) rotate(-1deg);
+  box-shadow: 0 12px 26px rgba(255, 182, 213, 0.45);
+}
+.st-avatar-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #eee;
+  margin-bottom: 6px;
+  position: relative;
+}
+.st-avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.st-num {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: rgba(27, 20, 66, 0.72);
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 99px;
+}
+.st-badge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: linear-gradient(135deg, #d6336c, #f59f00);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 99px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.st-name {
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.25;
+  color: #2b2350;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.st-role {
+  font-size: 11px;
+  color: #b43e6f;
+  font-weight: 700;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==================== MÀN HÌNH 4: LỌ SAO TÂM THƯ & TUỔI 18 (LỚP 12) ==================== */
+#s4 {
+  justify-content: flex-start;
+  padding: max(14px, env(safe-area-inset-top)) 14px calc(74px + env(safe-area-inset-bottom));
+}
+.s4-scroll {
+  width: min(95vw, 820px);
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding: 4px 4px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+/* Thống kê 41 học sinh */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+@media (max-width: 520px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+.stat-box {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+.stat-num {
+  font-family: 'Dancing Script', cursive;
+  font-size: 27px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1.1;
+}
+.stat-label {
+  font-size: 11.5px;
+  opacity: 0.9;
+  margin-top: 3px;
+}
+
+/* Khu vực Lọ Sao Kép (Gửi Cô GVCN & Gửi Bản Thân Tuổi 18) */
+.jar-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 182, 213, 0.14));
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.jar-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.jar-tab {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font: 700 12.5px 'Quicksand', sans-serif;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.jar-tab.active.teacher-mode {
+  background: linear-gradient(135deg, #ffb6d5, #ffe3a3);
+  color: var(--ink);
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(255, 182, 213, 0.5);
+}
+.jar-tab.active.future-mode {
+  background: linear-gradient(135deg, #99e9f2, #ffd98a);
+  color: var(--ink);
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(153, 233, 242, 0.5);
+}
+
+.jar-visual {
+  width: 90px;
+  height: 110px;
+  border: 3px solid rgba(255, 255, 255, 0.8);
+  border-radius: 18px 18px 26px 26px;
+  position: relative;
+  background: radial-gradient(circle at 50% 65%, rgba(255, 217, 138, 0.5), rgba(255, 182, 213, 0.18));
+  box-shadow: 0 0 28px rgba(255, 217, 138, 0.5), inset 0 0 18px rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 38px;
+  animation: float 3.2s ease-in-out infinite;
+  transition: background 0.4s, box-shadow 0.4s;
+}
+.jar-visual.future {
+  background: radial-gradient(circle at 50% 65%, rgba(153, 233, 242, 0.5), rgba(255, 217, 138, 0.2));
+  box-shadow: 0 0 28px rgba(153, 233, 242, 0.55), inset 0 0 18px rgba(255, 255, 255, 0.4);
+}
+.jar-visual::before {
+  content: "";
+  position: absolute;
+  top: -11px;
+  width: 56px;
+  height: 10px;
+  background: #e6b87a;
+  border-radius: 4px;
+  border: 2px solid rgba(255,255,255,0.75);
+}
+.wish-note-box {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 13px 16px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 560px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+  line-height: 1.5;
+  border-left: 4px solid var(--rose);
+  transition: transform 0.25s;
+  text-align: left;
+}
+.wish-note-box.future-border {
+  border-left-color: #1098ad;
+}
+.wish-note-box strong {
+  display: block;
+  color: var(--rose);
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.wish-note-box.future-border strong {
+  color: #0c8599;
+}
+
+/* Hai bức tâm thư song song: Gửi Cô GVCN & Gửi Tuổi 18 Lớp 12 */
+.dual-letters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 640px) {
+  .dual-letters { grid-template-columns: 1fr; }
+}
+.mini-letter {
+  background: var(--paper);
+  color: #43324d;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+  border-top: 5px solid var(--rose);
+}
+.mini-letter.age18 {
+  border-top-color: #15aabf;
+  background: linear-gradient(180deg, #f8feff, #fff9ec);
+}
+.mini-letter h4 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 24px;
+  color: #c23b75;
+  margin-bottom: 6px;
+}
+.mini-letter.age18 h4 {
+  color: #0b7285;
+}
+.mini-letter p {
+  font-size: 13.5px;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+/* Dòng thời gian kỷ niệm */
+.timeline-box {
+  background: rgba(20, 14, 48, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 16px;
+}
+.timeline-box h3 {
+  font-size: 23px;
+  color: var(--gold);
+  margin-bottom: 12px;
+  text-align: center;
+}
+.tl-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 2px dashed rgba(255, 217, 138, 0.55);
+  margin-left: 10px;
+  padding-left: 14px;
+}
+.tl-item {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+.tl-item::before {
+  content: "✦";
+  position: absolute;
+  left: -23px;
+  top: 10px;
+  width: 16px;
+  height: 16px;
+  background: var(--gold);
+  color: var(--ink);
+  border-radius: 50%;
+  font-size: 10px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+.tl-time {
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.tl-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  margin: 2px 0;
+}
+.tl-desc {
+  font-size: 12.5px;
+  opacity: 0.88;
+}
+
+/* ==================== MÀN HÌNH 5: BỨC THƯ TRI ÂN CHÍNH ==================== */
+#s5 {
+  padding: max(14px, env(safe-area-inset-top)) 16px calc(76px + env(safe-area-inset-bottom));
+  gap: 12px;
+}
+.paper {
+  position: relative;
+  width: min(92vw, 560px);
+  max-height: 66vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  background: var(--paper);
+  color: #4a3b52;
+  border-radius: 6px;
+  padding: 34px 24px 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transform: rotate(-0.6deg);
+  background-image:
+    repeating-linear-gradient(transparent 0 31px, rgba(120, 150, 200, 0.25) 31px 32px),
+    radial-gradient(circle at 10% 8%, rgba(255, 182, 213, 0.25), transparent 40%);
+}
+.paper::before, .paper::after {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 28px;
+  background: repeating-linear-gradient(45deg, rgba(255, 170, 200, 0.8) 0 8px, rgba(255, 225, 150, 0.8) 8px 16px);
+  top: -10px;
+  opacity: 0.9;
+}
+.paper::before { left: -22px; transform: rotate(-35deg); }
+.paper::after { right: -22px; transform: rotate(35deg); }
+.paper h2 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 29px;
+  color: #c2417a;
+  margin-bottom: 10px;
+  line-height: 1.2;
+  padding-right: 72px;
+}
+.skip-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border: 1px solid rgba(194, 65, 122, 0.35);
+  background: rgba(255, 255, 255, 0.78);
+  color: #c2417a;
+  font: 600 11px 'Quicksand', sans-serif;
+  padding: 4px 10px;
+  border-radius: 99px;
+  cursor: pointer;
+}
+#typed {
+  font: 500 15px/32px 'Be Vietnam Pro', sans-serif;
+  white-space: pre-wrap;
+  min-height: 160px;
+}
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: #c2417a;
+  vertical-align: -2px;
+  margin-left: 2px;
+  animation: blink 0.8s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.sign {
+  margin-top: 16px;
+  text-align: right;
+  font: 700 22px 'Dancing Script', cursive;
+  color: #7a3f8f;
+  opacity: 0;
+  transition: opacity 0.9s;
+}
+.sign.show { opacity: 1; }
+
+/* Đĩa nhạc góc trên phải */
+.vinyl {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top));
+  right: 14px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  z-index: 10;
+  background: radial-gradient(circle, #ff8fb4 0 14%, #111 15% 30%, #2a2a2a 31% 34%, #111 35% 52%, #2a2a2a 53% 55%, #111 56%);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  animation: spin 4s linear infinite;
+  animation-play-state: paused;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+.vinyl.show { opacity: 1; pointer-events: auto; }
+.vinyl.on { animation-play-state: running; }
+.vinyl:not(.on)::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 50%;
+  height: 3px;
+  background: #ff6b8b;
+  transform: rotate(-45deg);
+  border-radius: 2px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ==================== MODAL PHÓNG TO ẢNH & THẺ HỌC SINH ==================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  background: rgba(10, 6, 30, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: 0.32s ease;
+}
+.modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.modal-close {
+  position: absolute;
+  top: max(16px, env(safe-area-inset-top));
+  right: 18px;
+  font-size: 32px;
+  background: none;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Lightbox ảnh tập thể */
+#lb .frame {
+  background: var(--paper);
+  padding: 10px 10px 14px;
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  margin-bottom: 12px;
+}
+#lb img {
+  display: block;
+  max-width: 84vw;
+  max-height: 60vh;
+  object-fit: contain;
+  border-radius: 3px;
+}
+#lb p {
+  text-align: center;
+  font: 600 clamp(20px, 5vw, 28px) 'Dancing Script', cursive;
+  color: #ffe7b8;
+}
+.lb-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+#lbPrev { left: 12px; }
+#lbNext { right: 12px; }
+
+/* Thẻ chi tiết học sinh (Student Profile Card Modal) */
+.profile-card {
+  width: min(90vw, 370px);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+  position: relative;
+  transform: scale(0.85);
+  transition: transform 0.35s cubic-bezier(.2, 1.25, .4, 1);
+}
+#stModal.open .profile-card {
+  transform: scale(1);
+}
+.profile-img-box {
+  width: 128px;
+  height: 128px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, #ff8fb4, #ffd98a);
+  box-shadow: 0 8px 20px rgba(214, 51, 108, 0.3);
+}
+.profile-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #fff;
+}
+.profile-num {
+  display: inline-block;
+  background: #f3d9fa;
+  color: #6b2d7a;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 99px;
+  margin-bottom: 4px;
+}
+.profile-name {
+  font-size: 21px;
+  font-weight: 700;
+  color: #2b2350;
+}
+.profile-nick {
+  font-family: 'Dancing Script', cursive;
+  font-size: 20px;
+  color: #c2417a;
+  margin-bottom: 10px;
+}
+.profile-box {
+  background: rgba(255, 182, 213, 0.2);
+  border-left: 3px solid var(--rose);
+  border-radius: 8px;
+  padding: 8px 11px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #4a3b52;
+  text-align: left;
+  margin-bottom: 8px;
+}
+.profile-box.future {
+  background: rgba(153, 233, 242, 0.22);
+  border-left-color: #0c8599;
+  margin-bottom: 14px;
+}
+.profile-box strong {
+  display: block;
+  font-size: 11.5px;
+  color: #a61e4d;
+  margin-bottom: 2px;
+}
+.profile-box.future strong {
+  color: #0b7285;
+}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<canvas id="fx"></canvas>
+
+<!-- ==================== MÀN HÌNH 1: PHONG BÌ MỞ ĐẦU ==================== -->
+<section class="screen active" id="s1">
+  <div class="top-tag">✦ LƯU BÚT THANH XUÂN ✦</div>
+  <div class="env-wrap" onclick="openMemory()">
+    <div class="env" id="envBox">
+      <div class="body"></div>
+      <div class="flap"></div>
+      <div class="seal">🤍</div>
+      <div class="class-label" id="envLabel">Lớp 11/7</div>
+    </div>
+  </div>
+  <div class="to script">
+    <small>Kính gửi</small>
+    <span id="toText">Cô Chủ Nhiệm & Thanh Xuân 11/7</span>
+  </div>
+  <button class="btn pulse" id="openBtn" type="button" onclick="openMemory()">Chạm để mở ký ức ✨</button>
+  <div class="audio-note">♫ Bật âm lượng để có trải nghiệm trọn vẹn nhất</div>
+</section>
+
+<!-- ==================== MÀN HÌNH 2: VÒNG XOAY ẢNH 3D ==================== -->
+<section class="screen" id="s2">
+  <div class="screen-head">
+    <h1 class="script" id="title2">Thanh Xuân 11/7 ✿ THPT Ông Ích Khiêm</h1>
+    <p>Không gian ký ức 3D • Chạm vào từng tấm ảnh để xem rõ hơn</p>
+  </div>
+  <div class="scene" id="scene"><div class="ring" id="ring"></div></div>
+  <div class="s2-tools">
+    <div class="hint">Vuốt ngang để xoay 3D • Chạm ảnh để phóng to</div>
+    <button class="btn ghost" id="layoutBtn" type="button" onclick="toggle3DLayout()">🌀 Đổi kiểu: Xoắn ốc</button>
+  </div>
+</section>
+
+<!-- ==================== MÀN HÌNH 3: 41 GƯƠNG MẶT HỌC SINH 11/7 ==================== -->
+<section class="screen" id="s3">
+  <div class="s3-header">
+    <h2 class="script">41 Mảnh Ghép Đại Gia Đình 11/7 🌟</h2>
+    <p>Chạm vào từng thành viên để xem lời chúc gửi Cô & lời nhắn gửi tuổi 18</p>
+  </div>
+  <div class="roster-controls">
+    <input type="text" class="search-input" id="stSearch" placeholder="🔍 Tìm tên hoặc chức vụ...">
+    <div class="filter-pills" id="filterPills">
+      <button class="pill active" type="button" data-filter="all">Tất cả (41)</button>
+      <button class="pill" type="button" data-filter="leader">⭐ Ban Cán Sự & Đoàn (6)</button>
+      <button class="pill" type="button" data-filter="member">✨ Thành viên (35)</button>
+      <button class="pill lucky" type="button" onclick="pickRandomStudent()">🎲 Bốc thăm ngẫu nhiên</button>
+    </div>
+  </div>
+  <div class="student-grid" id="studentGrid"></div>
+</section>
+
+<!-- ==================== MÀN HÌNH 4: LỌ SAO TÂM THƯ & HỘP THỜI GIAN TUỔI 18 ==================== -->
+<section class="screen" id="s4">
+  <div class="s3-header">
+    <h2 class="script">Lọ Sao Tâm Thư & Hẹn Ước Tuổi 18 ✨</h2>
+    <p>Nơi lưu giữ lời gửi Cô GVCN hiện tại & ước nguyện lớp 12 năm 18 tuổi</p>
+  </div>
+  <div class="s4-scroll">
+    <!-- Con số biết nói -->
+    <div class="stats-row" id="statsRow"></div>
+
+    <!-- Lọ sao tương tác 2 chế độ -->
+    <div class="jar-card">
+      <div class="jar-tabs">
+        <button class="jar-tab active teacher-mode" id="tabTeacher" type="button" onclick="setJarMode('teacher')">🌸 Tâm thư gửi Cô GVCN</button>
+        <button class="jar-tab future-mode" id="tabFuture" type="button" onclick="setJarMode('future')">⏳ Gửi bản thân Lớp 12 (Tuổi 18)</button>
+      </div>
+
+      <div class="jar-visual" id="jarVisual" onclick="drawStarNote()" title="Chạm để mở ngôi sao">🌟</div>
+      <div id="jarGuide" style="font-weight:700;font-size:14px;color:var(--gold)">Chạm vào Lọ Sao để bốc ngẫu nhiên lời nhắn gửi Cô GVCN hiện tại</div>
+
+      <div class="wish-note-box" id="wishBox">
+        <strong id="wishAuthor">💌 Tâm thư từ: Tập thể 41 học sinh lớp 11/7</strong>
+        <span id="wishText">Chạm vào chiếc lọ phát sáng phía trên để mở từng ngôi sao chứa đựng tâm sự gửi Cô chủ nhiệm và lời hứa hẹn cho năm lớp 12 tuổi 18!</span>
+      </div>
+
+      <button class="btn ghost" type="button" onclick="drawStarNote()">✨ Bốc ngôi sao tiếp theo</button>
+    </div>
+
+    <!-- 2 Bức Tâm Thư Song Song -->
+    <div class="dual-letters">
+      <div class="mini-letter">
+        <h4 id="cardTeacherTitle">🌸 Tâm Thư Gửi Cô GVCN Hiện Tại</h4>
+        <p id="cardTeacherBody"></p>
+      </div>
+      <div class="mini-letter age18">
+        <h4 id="card18Title">⏳ Gửi Chúng Mình Năm Lớp 12 – Tuổi 18</h4>
+        <p id="card18Body"></p>
+      </div>
+    </div>
+
+    <!-- Dòng thời gian -->
+    <div class="timeline-box">
+      <h3 class="script">Hành Trình Từ 11/7 Đến Ngưỡng Cửa Tuổi 18</h3>
+      <div class="tl-list" id="tlList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== MÀN HÌNH 5: BỨC THƯ TRI ÂN CHÍNH ==================== -->
+<section class="screen" id="s5">
+  <div class="paper" id="paper">
+    <button class="skip-btn" id="skipBtn" type="button" onclick="finishTyping()">Hiện nhanh ⏩</button>
+    <h2 id="letterTitle">Thư tri ân gửi Cô</h2>
+    <div id="typed"></div>
+    <div class="sign script" id="sign"></div>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+    <button class="btn" type="button" onclick="triggerHeartRain(event)">❤️ Thả tim tri ân (<span id="heartCount">117</span>)</button>
+    <button class="btn ghost" type="button" onclick="switchTab('s1')">↺ Mở lại thiệp</button>
+  </div>
+</section>
+
+<!-- ==================== THANH MENU DƯỚI ĐÁY (DOCK) ==================== -->
+<nav class="nav-dock" id="navDock">
+  <button class="nav-item active" type="button" data-target="s2" onclick="switchTab('s2')">🎡 Ảnh 3D</button>
+  <button class="nav-item" type="button" data-target="s3" onclick="switchTab('s3')">👨‍🎓 41 Thành viên</button>
+  <button class="nav-item" type="button" data-target="s4" onclick="switchTab('s4')">🫙 Lọ Sao & Tuổi 18</button>
+  <button class="nav-item" type="button" data-target="s5" onclick="switchTab('s5')">💌 Thư Tri Ân</button>
+</nav>
+
+<!-- Nút đĩa than bật/tắt nhạc -->
+<button class="vinyl" id="vinyl" type="button" aria-label="Bật/tắt nhạc"></button>
+
+<!-- Modal phóng to ảnh tập thể -->
+<div class="modal-overlay" id="lb">
+  <button class="modal-close" id="lbX" type="button">×</button>
+  <button class="lb-nav" id="lbPrev" type="button">‹</button>
+  <div class="frame"><img id="lbImg" alt=""></div>
+  <button class="lb-nav" id="lbNext" type="button">›</button>
+  <p id="lbCap"></p>
+</div>
+
+<!-- Modal thẻ chi tiết từng học sinh -->
+<div class="modal-overlay" id="stModal" onclick="closeStudentModal(event)">
+  <button class="modal-close" type="button" onclick="closeStudentModal()">×</button>
+  <div class="profile-card">
+    <div class="profile-img-box"><img id="stModalImg" alt=""></div>
+    <div class="profile-num" id="stModalNum"></div>
+    <div class="profile-name" id="stModalName"></div>
+    <div class="profile-nick" id="stModalRole"></div>
+
+    <div class="profile-box">
+      <strong>💌 Gửi Cô chủ nhiệm hiện tại:</strong>
+      <span id="stModalQuote"></span>
+    </div>
+
+    <div class="profile-box future">
+      <strong>⏳ Gửi bản thân lớp 12 (Tuổi 18):</strong>
+      <span id="stModalTo18"></span>
+    </div>
+
+    <button class="btn" type="button" onclick="pickRandomStudent()">🎲 Xem bạn tiếp theo</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   ⚙️ CẤU HÌNH TOÀN BỘ NỘI DUNG – CHỈ CẦN SỬA TRONG BIẾN CONFIG NÀY
+   ===================================================================== */
+const CONFIG = {
+  teacherName: "Cô Chủ Nhiệm Yêu Quý",       // <-- Đổi tên Cô GVCN ở đây
+  className: "Thanh Xuân 11/7",
+  shortClass: "Lớp 11/7",
+  schoolName: "THPT Ông Ích Khiêm",
+  music: "nhacnen.mp3",                      // File nhạc đặt cùng thư mục
+  musicVolume: 0.75,
+
+  // 1. DANH SÁCH ẢNH TẬP THỂ (Vòng xoay 3D ở Màn hình 2)
+  photos: [
+    { src: "anh1.jpg",  caption: "Ngày đầu tiên 41 trái tim chung mái nhà 11/7" },
+    { src: "anh2.jpg",  caption: "Giờ ra chơi rộn rã tiếng cười" },
+    { src: "anh3.jpg",  caption: "Những ngày tập văn nghệ quên mệt mỏi" },
+    { src: "anh4.jpg",  caption: "Đại gia đình 11/7 bên Cô chủ nhiệm" },
+    { src: "anh5.jpg",  caption: "Chuyến ngoại khóa đầy ắp kỷ niệm" },
+    { src: "anh6.jpg",  caption: "Những khoảnh khắc bất ngờ dành tặng Cô" },
+    { src: "anh7.jpg",  caption: "Tiết sinh hoạt lớp ấm áp không thể quên" },
+    { src: "anh8.jpg",  caption: "Nụ cười tuổi 17 dưới nắng trường Ông Ích Khiêm" },
+    { src: "anh9.jpg",  caption: "Chi đoàn 11/7 cháy hết mình trong hội trại" },
+    { src: "anh10.jpg", caption: "Mãi là thanh xuân rực rỡ nhất của chúng mình" }
+  ],
+
+  // 2. DANH SÁCH ĐẦY ĐỦ 41 HỌC SINH LỚP 11/7 (Không chia tổ)
+  // 6 vị trí đầu là Ban Cán Sự & Đoàn: Lớp trưởng, Lớp phó học tập, Lớp phó kỷ luật, Bí thư, Phó bí thư, Thủ quỹ.
+  // Đặt tên ảnh từ hs1.jpg đến hs41.jpg (nếu chưa có ảnh, web tự vẽ Avatar chữ cái màu Pastel).
+  students: [
+    // --- 6 BAN CÁN SỰ & BAN CHẤP HÀNH CHI ĐOÀN ---
+    { name: "Họ Tên Lớp Trưởng", role: "Lớp trưởng gương mẫu", isLeader: true, img: "hs1.jpg", quote: "Thay mặt 41 thành viên 11/7, em cảm ơn Cô đã luôn kiên nhẫn, bao dung và dẫn dắt lớp mình!", to18: "Tuổi 18 vững vàng, giữ vững phong độ đầu tàu và cùng cả lớp đậu Nguyện vọng 1!" },
+    { name: "Họ Tên LP Học Tập", role: "Lớp phó học tập", isLeader: true, img: "hs2.jpg", quote: "Cảm ơn Cô đã truyền cho chúng em ngọn lửa say mê học tập mỗi ngày lên lớp!", to18: "Năm lớp 12 bứt phá điểm số, chinh phục cánh cổng trường Đại học mơ ước!" },
+    { name: "Họ Tên LP Kỷ Luật", role: "Lớp phó kỷ luật", isLeader: true, img: "hs3.jpg", quote: "Em hứa sẽ giữ lớp thật ngoan để mỗi tiết sinh hoạt Cô đều nở nụ cười thật tươi!", to18: "Tuổi 18 kỷ luật, bản lĩnh và không bao giờ bỏ cuộc trước thử thách!" },
+    { name: "Họ Tên Bí Thư", role: "Bí thư Chi đoàn 11/7", isLeader: true, img: "hs4.jpg", quote: "Cảm ơn Cô đã luôn ủng hộ hết mình cho mọi phong trào thanh niên của Chi đoàn 11/7!", to18: "Cháy hết mình ở năm cuối cấp để tuổi 18 không có điều gì phải hối tiếc!" },
+    { name: "Họ Tên Phó Bí Thư", role: "Phó bí thư Chi đoàn", isLeader: true, img: "hs5.jpg", quote: "Tình cảm ấm áp của Cô chính là sợi dây gắn kết 41 thành viên 11/7 thành một gia đình!", to18: "Tuổi 18 rực rỡ, năng động và luôn giữ trọn tình bạn đẹp dưới mái trường Ông Ích Khiêm!" },
+    { name: "Họ Tên Thủ Quỹ", role: "Thủ quỹ quyền lực", isLeader: true, img: "hs6.jpg", quote: "Quỹ lớp có thể vơi đi nhưng tình yêu thương 11/7 dành cho Cô thì luôn đong đầy!", to18: "Năm 18 tuổi tự lập, quản lý thời gian thật tốt và đạt mọi mục tiêu đề ra!" },
+
+    // --- 35 THÀNH VIÊN ĐẠI GIA ĐÌNH 11/7 (Sửa tên từ số 7 đến 41) ---
+    { name: "Nguyễn Hoàng Vương", role: "Đạo diễn AI & Media", isLeader: false, img: "hs7.jpg", quote: "Cảm ơn Cô đã luôn tiếp thêm cảm hứng sáng tạo cho tụi em qua từng thước phim và kỷ niệm!", to18: "Tuổi 18 làm chủ công nghệ, đậu ngành học mơ ước và giữ mãi ngọn lửa đam mê!" },
+    { name: "Học sinh 08 (Nguyên)", role: "Thành viên 11/7", isLeader: false, img: "hs8.jpg", quote: "Chúc Cô luôn trẻ trung, tràn đầy năng lượng và hạnh phúc bên học trò!", to18: "Lớp 12 quyết tâm ôn thi thật tốt, tự tin bước vào ngưỡng cửa tuổi 18!" },
+    { name: "Học sinh 09 (Thắng)", role: "Thành viên 11/7", isLeader: false, img: "hs9.jpg", quote: "Cảm ơn Cô vì những lời nhắc nhở ân cần đã giúp em trưởng thành hơn mỗi ngày!", to18: "Tuổi 18 mạnh mẽ, kiên định với ước mơ và làm bố mẹ, thầy cô tự hào!" },
+    { name: "Học sinh 10 (Thảo)", role: "Thành viên 11/7", isLeader: false, img: "hs10.jpg", quote: "Nụ cười dịu dàng của Cô là điều tụi em nhớ nhất mỗi khi bước vào lớp 11/7!", to18: "Gửi tôi của năm 18 tuổi: Hãy luôn dịu dàng, tự tin và tỏa sáng theo cách riêng!" },
+    { name: "Học sinh 11 (Uyên)", role: "Thành viên 11/7", isLeader: false, img: "hs11.jpg", quote: "Chúc Cô luôn bình an, mạnh khỏe và mãi là người mẹ thứ hai của 11/7!", to18: "Năm lớp 12 chăm chỉ gấp đôi, bình tĩnh vượt vũ môn hóa cá chép hóa rồng!" },
+    { name: "Học sinh 12 (Như)", role: "Thành viên 11/7", isLeader: false, img: "hs12.jpg", quote: "Cảm ơn Cô đã luôn lắng nghe và thấu hiểu những tâm sự tuổi học trò của tụi em!", to18: "Tuổi 18 thật nhiều niềm vui, đậu đúng trường mình thích và giữ liên lạc với 41 bạn nhé!" },
+    { name: "Học sinh 13 (Ly)", role: "Thành viên 11/7", isLeader: false, img: "hs13.jpg", quote: "Dù lên lớp 12 bận rộn thế nào, tụi em vẫn mãi nhớ những tiết học ấm áp của Cô!", to18: "Chúc bản thân năm 18 tuổi luôn rạng rỡ như hoa hướng dương đón nắng mặt trời!" },
+    { name: "Học sinh 14", role: "Thành viên 11/7", isLeader: false, img: "hs14.jpg", quote: "Cảm ơn Cô đã kiên nhẫn dìu dắt tập thể 11/7 suốt chặng đường vừa qua!", to18: "Lớp 12 không lười biếng nữa, quyết tâm chạm tay vào cánh cổng Đại học!" },
+    { name: "Học sinh 15", role: "Thành viên 11/7", isLeader: false, img: "hs15.jpg", quote: "Chúc Cô mỗi ngày đến trường đều là một ngày ngập tràn tiếng cười và niềm vui!", to18: "Tuổi 18 trưởng thành, biết trân trọng từng khoảnh khắc bên bạn bè và thầy cô!" },
+    { name: "Học sinh 16", role: "Thành viên 11/7", isLeader: false, img: "hs16.jpg", quote: "Chúng em cảm ơn Cô vì đã luôn bao dung cho những lần lớp mình còn tinh nghịch!", to18: "Gửi tuổi 18: Dù áp lực thi cử thế nào cũng hãy giữ nụ cười lạc quan nhé!" },
+    { name: "Học sinh 17", role: "Thành viên 11/7", isLeader: false, img: "hs17.jpg", quote: "Thanh xuân dưới mái trường Ông Ích Khiêm đẹp nhất là vì có Cô đồng hành!", to18: "Năm 18 tuổi hoàn thành xuất sắc kỳ thi THPT Quốc gia, mở ra chân trời mới!" },
+    { name: "Học sinh 18", role: "Thành viên 11/7", isLeader: false, img: "hs18.jpg", quote: "Kính chúc Cô luôn dồi dào sức khỏe để chèo lái thêm nhiều chuyến đò tri thức!", to18: "Tuổi 18 dám nghĩ dám làm, sống hết mình với đam mê tuổi trẻ!" },
+    { name: "Học sinh 19", role: "Thành viên 11/7", isLeader: false, img: "hs19.jpg", quote: "Mỗi bài học làm người Cô dạy sẽ là hành trang theo chúng em suốt cuộc đời!", to18: "Hãy tự hào vì mình đã nỗ lực hết sức trong suốt những năm tháng cấp 3!" },
+    { name: "Học sinh 20", role: "Thành viên 11/7", isLeader: false, img: "hs20.jpg", quote: "Cảm ơn Cô đã luôn dành trọn tâm huyết và tình thương cho 41 đứa con 11/7!", to18: "Năm lớp 12 tập trung tối đa, tạm gác những cuộc chơi để bứt phá ngoạn mục!" },
+    { name: "Học sinh 21", role: "Thành viên 11/7", isLeader: false, img: "hs21.jpg", quote: "Chúc Cô mãi giữ được ngọn lửa nhiệt huyết và nụ cười ấm áp trên bục giảng!", to18: "Tuổi 18 chín chắn hơn, yêu thương gia đình và trân quý tình bạn 11/7!" },
+    { name: "Học sinh 22", role: "Thành viên 11/7", isLeader: false, img: "hs22.jpg", quote: "Cảm ơn Cô vì đã không chỉ dạy kiến thức mà còn dạy tụi em cách sống tử tế!", to18: "Hẹn gặp lại chính mình ở tuổi 18 với giấy báo trúng tuyển Đại học trên tay!" },
+    { name: "Học sinh 23", role: "Thành viên 11/7", isLeader: false, img: "hs23.jpg", quote: "Tập thể 11/7 tự hào và hạnh phúc biết bao khi được là học trò của Cô!", to18: "Lớp 12 đoàn kết cùng cả lớp ôn tập, không để ai bị bỏ lại phía sau!" },
+    { name: "Học sinh 24", role: "Thành viên 11/7", isLeader: false, img: "hs24.jpg", quote: "Chúc Cô luôn ngập tràn hạnh phúc và gặt hái nhiều thành công trong sự nghiệp trồng người!", to18: "Tuổi 18 vững bước trên con đường mình đã chọn, bình an và may mắn!" },
+    { name: "Học sinh 25", role: "Thành viên 11/7", isLeader: false, img: "hs25.jpg", quote: "Những kỷ niệm bên Cô và 40 người bạn sẽ mãi là ký ức đẹp nhất đời học sinh của em!", to18: "Đừng quên những buổi chiều tan học đầy nắng và tiếng cười của năm tháng 17-18 tuổi!" },
+    { name: "Học sinh 26", role: "Thành viên 11/7", isLeader: false, img: "hs26.jpg", quote: "Cảm ơn Cô đã luôn động viên khi em gặp khó khăn trong học tập!", to18: "Tuổi 18 tự tin hơn, vượt qua mọi giới hạn của bản thân để vươn tới ước mơ!" },
+    { name: "Học sinh 27", role: "Thành viên 11/7", isLeader: false, img: "hs27.jpg", quote: "Chúc Cô mãi trẻ đẹp, yêu đời và luôn tự hào khi nhắc về khóa học trò 11/7!", to18: "Năm lớp 12 học thật chắc, thi thật tốt và lưu giữ thật nhiều ảnh kỷ yếu đẹp!" },
+    { name: "Học sinh 28", role: "Thành viên 11/7", isLeader: false, img: "hs28.jpg", quote: "Cảm ơn Cô đã làm cho mỗi ngày đi học của tụi em trở nên ấm áp như ở nhà!", to18: "Tuổi 18 trưởng thành, độc lập và sẵn sàng bước vào thế giới rộng lớn!" },
+    { name: "Học sinh 29", role: "Thành viên 11/7", isLeader: false, img: "hs29.jpg", quote: "Tụi em hứa sẽ cố gắng học thật giỏi để không phụ lòng mong mỏi của Cô!", to18: "Gửi tuổi 18: Mọi giọt mồ hôi trên trang vở lớp 12 đều sẽ đổi lấy trái ngọt!" },
+    { name: "Học sinh 30", role: "Thành viên 11/7", isLeader: false, img: "hs30.jpg", quote: "Kính chúc Cô thật nhiều sức khỏe, niềm vui và may mắn trong cuộc sống!", to18: "Năm 18 tuổi hãy mỉm cười thật tươi vì chúng mình đã đi cùng nhau một thanh xuân tuyệt đẹp!" },
+    { name: "Học sinh 31", role: "Thành viên 11/7", isLeader: false, img: "hs31.jpg", quote: "Cảm ơn Cô đã luôn công bằng, tận tâm và yêu thương tất cả 41 thành viên!", to18: "Lớp 12 quyết tâm đạt điểm cao trong từng kỳ thi thử và kỳ thi chính thức!" },
+    { name: "Học sinh 32", role: "Thành viên 11/7", isLeader: false, img: "hs32.jpg", quote: "Những lời dặn dò của Cô trước mỗi kỳ thi luôn tiếp thêm sức mạnh cho tụi em!", to18: "Tuổi 18 bản lĩnh, bình tĩnh tự tin trước mọi bước ngoặt lớn của cuộc đời!" },
+    { name: "Học sinh 33", role: "Thành viên 11/7", isLeader: false, img: "hs33.jpg", quote: "Chúc Cô luôn giữ mãi nụ cười hiền hậu đã sưởi ấm cả tập thể 11/7!", to18: "Hãy trân trọng từng tiết học cuối cấp bên thầy cô và 41 người bạn thân thương!" },
+    { name: "Học sinh 34", role: "Thành viên 11/7", isLeader: false, img: "hs34.jpg", quote: "Cảm ơn Cô vì đã biến lớp 11/7 thành một tập thể đoàn kết và giàu tình yêu thương!", to18: "Tuổi 18 bay cao, bay xa nhưng luôn nhớ về tổ ấm 11/7 – THPT Ông Ích Khiêm!" },
+    { name: "Học sinh 35", role: "Thành viên 11/7", isLeader: false, img: "hs35.jpg", quote: "Dù thời gian có trôi nhanh, lòng biết ơn của chúng em dành cho Cô vẫn vẹn nguyên!", to18: "Năm lớp 12 nỗ lực 200% sức lực để ngày nhận điểm thi là ngày vui nhất!" },
+    { name: "Học sinh 36", role: "Thành viên 11/7", isLeader: false, img: "hs36.jpg", quote: "Chúc Cô luôn hạnh phúc và nhận được thật nhiều hoa điểm 10 từ lớp mình!", to18: "Tuổi 18 sống có trách nhiệm, biết ơn cha mẹ và thầy cô đã nâng bước!" },
+    { name: "Học sinh 37", role: "Thành viên 11/7", isLeader: false, img: "hs37.jpg", quote: "Cảm ơn Cô đã kiên trì uốn nắn từng nét chữ, từng thói quen nhỏ cho tụi em!", to18: "Gửi tôi năm 18 tuổi: Đừng sợ sai, hãy cứ dũng cảm theo đuổi con đường mình chọn!" },
+    { name: "Học sinh 38", role: "Thành viên 11/7", isLeader: false, img: "hs38.jpg", quote: "Em chúc Cô luôn rạng ngời hạnh phúc bên gia đình và những lứa học trò thân yêu!", to18: "Năm lớp 12 giữ gìn sức khỏe, thức khuya ôn bài nhưng đừng quên chăm sóc bản thân!" },
+    { name: "Học sinh 39", role: "Thành viên 11/7", isLeader: false, img: "hs39.jpg", quote: "Cảm ơn Cô vì những giờ sinh hoạt lớp đầy ắp tiếng cười và sự sẻ chia!", to18: "Tuổi 18 mở ra cánh cửa mới, chúc cả 41 thành viên lớp mình đều thành công!" },
+    { name: "Học sinh 40", role: "Thành viên 11/7", isLeader: false, img: "hs40.jpg", quote: "Cô chính là người truyền lửa tuyệt vời nhất trong thanh xuân cấp 3 của tụi em!", to18: "Hẹn một ngày không xa sau tuổi 18, cả lớp 41 người lại ngồi bên nhau ôn chuyện cũ!" },
+    { name: "Học sinh 41", role: "Thành viên 11/7", isLeader: false, img: "hs41.jpg", quote: "Mảnh ghép thứ 41 xin gửi ngàn lời yêu thương và lòng biết ơn sâu sắc nhất đến Cô!", to18: "Tuổi 18 trọn vẹn, đỗ đạt vẻ vang và mãi tự hào là một phần của 11/7!" }
+  ],
+
+  // 3. THỐNG KÊ, LỌ SAO KÉP & TÂM THƯ CỐ ĐỊNH (Màn hình 4)
+  stats: [
+    { num: "41", label: "Trái tim chung nhịp đập" },
+    { num: "06", label: "Cán sự & BCH tận tụy" },
+    { num: "17 → 18", label: "Hành trình trưởng thành" },
+    { num: "∞", label: "Biết ơn Cô chủ nhiệm" }
+  ],
+
+  // Các ngôi sao bốc ngẫu nhiên khi chọn tab "Tâm thư gửi Cô GVCN"
+  teacherWishes: [
+    { from: "Ban Cán Sự & BCH Lớp 11/7", text: "Cảm ơn Cô đã luôn tin tưởng giao nhiệm vụ và âm thầm đứng sau hỗ trợ tụi em điều hành tập thể 41 thành viên gắn kết như một gia đình!" },
+    { from: "Một học sinh bàn cuối", text: "Có những lần tụi em ồn ào làm Cô buồn lòng, nhưng Cô vẫn nhẹ nhàng khuyên bảo chứ không trách phạt nặng lời. Chúng em thương Cô nhiều lắm ạ! ❤️" },
+    { from: "Tập thể 41 học sinh 11/7", text: "Cảm ơn Cô vì đã biến mỗi tiết sinh hoạt cuối tuần thành khoảng thời gian ấm áp, nơi 41 đứa học trò được lắng nghe và tiếp thêm động lực!" },
+    { from: "Nhóm truyền thông & làm phim 11/7", text: "Nhờ sự ủng hộ hết mình của Cô mà những ý tưởng sáng tạo của lớp 11/7 luôn bay cao và để lại dấu ấn đẹp tại trường THPT Ông Ích Khiêm!" },
+    { from: "Những đứa con hay ngại ngùng", text: "Dù tụi em ít khi nói lời hoa mỹ trực tiếp, nhưng trong lòng cả 41 thành viên, Cô luôn là người giáo viên chủ nhiệm tuyệt vời nhất!" }
+  ],
+
+  // Các ngôi sao bốc ngẫu nhiên khi chọn tab "Gửi bản thân Lớp 12 (Tuổi 18)"
+  future18Wishes: [
+    { from: "Gửi tôi của năm 18 tuổi (Lớp 12)", text: "Khi đọc lại dòng này ở tuổi 18, mong rằng bạn đã không bỏ cuộc trước những đề thi khó và đang mỉm cười cầm trên tay giấy báo trúng tuyển Nguyện vọng 1!" },
+    { from: "Lời hứa của 41 thành viên 11/7", text: "Năm lớp 12 dù lịch học và ôn thi có dày đặc đến đâu, 41 đứa mình hãy cùng nhau nắm tay vượt vũ môn, không để bất kỳ ai bị bỏ lại phía sau nhé!" },
+    { from: "Gửi tuổi 18 dưới mái trường Ông Ích Khiêm", text: "Hãy trân trọng từng tiếng trống trường, từng buổi chiều nắng vàng trên hành lang lớp học, vì qua tuổi 18 rồi chúng mình sẽ nhớ nơi này biết bao!" },
+    { from: "Nhắn gửi tương lai trưởng thành", text: "Tuổi 18 ơi, hãy dũng cảm theo đuổi ước mơ, sống tử tế như lời Cô chủ nhiệm hằng dạy và luôn tự hào vì đã có một thời 11/7 rực rỡ!" },
+    { from: "Hẹn ước ngày hội ngộ", text: "Dù sau năm 18 tuổi mỗi người trong 41 thành viên sẽ bay đến những giảng đường và thành phố khác nhau, hãy hứa mỗi dịp Tết về lại họp lớp bên Cô nhé!" }
+  ],
+
+  // Nội dung 2 bức tâm thư đặt cạnh nhau ở Màn hình 4
+  cardTeacherText: "Cô ơi, 41 thành viên lớp 11/7 là 41 cá tính khác nhau, đôi lúc còn vụng về và hiếu động. Cảm ơn Cô đã dùng sự kiên nhẫn và trái tim ấm áp để dung hòa tất cả chúng em thành một tập thể thống nhất, không khoảng cách.\n\nTừng lời động viên, từng ánh mắt dõi theo của Cô hiện tại chính là điểm tựa vững chắc nhất để chúng em tự tin bước tiếp chặng đường phía trước.",
+  card18Text: "Gửi bản thân của năm lớp 12 – khi chúng mình tròn 18 tuổi!\n\nHành trình từ lớp 11 bước sang lớp 12 sẽ là những tháng ngày rực lửa nhất của tuổi học trò. Hãy hứa với chính mình của ngày hôm nay: Sẽ kiên trì hơn một chút, bản lĩnh hơn một chút, trân quý từng phút giây bên Cô và 40 người bạn đồng hành, để khi khép lại tuổi 18 dưới mái trường Ông Ích Khiêm, tất cả chúng ta đều mỉm cười tự hào!",
+
+  timeline: [
+    { time: "Cột mốc 1 • Hội Ngộ 11/7", title: "41 mảnh ghép chung một mái nhà", desc: "Không phân chia ranh giới, 41 thành viên cùng Ban Cán Sự và Cô chủ nhiệm bắt đầu viết nên cuốn nhật ký thanh xuân tại THPT Ông Ích Khiêm." },
+    { time: "Cột mốc 2 • Những Ngày Phong Trào", title: "Đồng lòng trong từng hoạt động", desc: "Từ những dự án phim sáng tạo, những buổi văn nghệ đến hội trại, tập thể 11/7 luôn cháy hết mình và tỏa sáng." },
+    { time: "Cột mốc 3 • Hiện Tại Tri Ân", title: "Gói trọn yêu thương gửi người lái đò", desc: "Lưu giữ những khung hình rực rỡ nhất của tuổi 17 và gửi ngàn lời cảm ơn chân thành đến Cô chủ nhiệm hiện tại." },
+    { time: "Cột mốc 4 • Hướng Tới Lớp 12 (Tuổi 18)", title: "Vượt vũ môn – Chạm tới ước mơ", desc: "41 chiến binh chuẩn bị hành trang bước vào năm cuối cấp, hẹn ước cùng nhau đỗ đạt và trưởng thành rực rỡ ở tuổi 18." }
+  ],
+
+  // 4. BỨC THƯ TRI ÂN CHÍNH (Hiệu ứng gõ chữ ở Màn hình 5)
+  letter: {
+    title: "Thư tri ân gửi Cô chủ nhiệm 🌸",
+    paragraphs: [
+      "Kính gửi Cô yêu quý của tập thể 11/7,",
+      "Có một nghề bụi phấn bám đầy tay, người ta bảo đó là nghề trong sạch nhất. Có một nghề không trồng cây vào đất, mà ươm cho đời những đóa hoa thơm.",
+      "Nếu mỗi năm học là một chuyến đò, thì 41 thành viên lớp 11/7 chúng em thật may mắn và hạnh phúc khi được gặp Cô dưới mái trường THPT Ông Ích Khiêm. Cảm ơn Cô đã luôn tận tụy, bao dung với những lần chúng em còn thiếu sót, và luôn đồng hành cùng Ban cán sự cũng như từng thành viên trong lớp.",
+      "Trước thềm hành trình bước sang năm lớp 12 và ngưỡng cửa tuổi 18 sắp tới, những lời dạy bảo của Cô sẽ mãi là kim chỉ nam quý giá nhất đối với chúng em.",
+      "Chúng em kính chúc Cô luôn thật nhiều sức khỏe, ngập tràn niềm vui và mãi giữ ngọn lửa nhiệt huyết trên bục giảng. Đại gia đình 41 học sinh 11/7 yêu Cô nhiều lắm! ❤️"
+    ],
+    signature: "Tập thể 41 học sinh Chi đoàn 11/7 – THPT Ông Ích Khiêm"
+  },
+
+  typeSpeedMs: 30,
+  autoRotateSpeed: 0.16
+};
+/* ===================================================================== */
+
+const $ = id => document.getElementById(id);
+const isMobile = matchMedia('(max-width:700px)').matches || ('ontouchstart' in window);
+
+/* ---- Khởi tạo văn bản chính ---- */
+$('envLabel').textContent = CONFIG.shortClass;
+$('toText').textContent = CONFIG.teacherName + " & " + CONFIG.className;
+$('title2').textContent = CONFIG.className + " ✿ " + CONFIG.schoolName;
+$('letterTitle').textContent = CONFIG.letter.title;
+$('sign').textContent = CONFIG.letter.signature;
+$('cardTeacherBody').textContent = CONFIG.cardTeacherText;
+$('card18Body').textContent = CONFIG.card18Text;
+
+/* ---- Tạo ảnh Placeholder cho ảnh tập thể ---- */
+function placeholderPhoto(i) {
+  const hues = [330, 280, 30, 200, 350, 260];
+  const h = hues[i % hues.length];
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='480'>
+    <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0' stop-color='hsl(${h},75%,78%)'/>
+      <stop offset='1' stop-color='hsl(${h+40},80%,86%)'/>
+    </linearGradient></defs>
+    <rect width='400' height='480' fill='url(#g)'/>
+    <text x='200' y='215' font-size='64' text-anchor='middle'>📸</text>
+    <text x='200' y='285' font-size='25' font-weight='bold' font-family='sans-serif' fill='#4a3052' text-anchor='middle'>Kỷ niệm #${i + 1}</text>
+    <text x='200' y='325' font-size='17' font-family='sans-serif' fill='#6b4c75' text-anchor='middle'>(anh${i + 1}.jpg)</text>
+  </svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+
+/* ---- Tạo Avatar chữ cái tự động nếu học sinh chưa có ảnh ---- */
+function placeholderAvatar(name, i) {
+  const hues = [335, 265, 20, 195, 310, 150, 40];
+  const h = hues[i % hues.length];
+  const clean = (name || "HS").replace(/\(.*?\)/g, '').trim();
+  const parts = clean.split(/\s+/);
+  const initials = parts.length > 1
+    ? (parts[parts.length - 2][0] + parts[parts.length - 1][0]).toUpperCase()
+    : parts[0].slice(0, 2).toUpperCase();
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'>
+    <defs><linearGradient id='av' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0' stop-color='hsl(${h},78%,72%)'/>
+      <stop offset='1' stop-color='hsl(${(h+45)%360},82%,84%)'/>
+    </linearGradient></defs>
+    <rect width='300' height='300' fill='url(#av)'/>
+    <circle cx='150' cy='150' r='115' fill='rgba(255,255,255,0.28)'/>
+    <text x='150' y='168' font-size='66' font-weight='bold' font-family='Quicksand, sans-serif' fill='#38244d' text-anchor='middle'>${initials}</text>
+    <text x='150' y='225' font-size='22' font-weight='bold' font-family='sans-serif' fill='#5c3d75' text-anchor='middle'>#${i + 1}</text>
+  </svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+
+/* ==================== MÀN HÌNH 2: VÒNG XOAY 3D ==================== */
+const ring = $('ring'), scene = $('scene');
+const N = CONFIG.photos.length, step = 360 / N;
+let layoutMode = 'ring';
+
+function layout3D() {
+  const w = isMobile ? Math.min(innerWidth * 0.38, 165) : 190;
+  const h = w * 1.22;
+  ring.style.setProperty('--cw', w + 'px');
+  ring.style.setProperty('--ch', h + 'px');
+  const radius = (w / 2) / Math.tan(Math.PI / Math.max(N, 6)) + (isMobile ? 28 : 50);
+
+  Array.from(ring.children).forEach((c, i) => {
+    if (layoutMode === 'ring') {
+      c.style.transform = `rotateY(${i * step}deg) translateZ(${radius}px)`;
+    } else {
+      const yOff = (i - (N - 1) / 2) * (isMobile ? 24 : 32);
+      c.style.transform = `rotateY(${i * step * 1.15}deg) translateY(${yOff}px) translateZ(${radius * 0.9}px)`;
+    }
+  });
+}
+
+CONFIG.photos.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.i = i;
+  const pol = document.createElement('div');
+  pol.className = 'polaroid';
+  const img = new Image();
+  img.src = p.src;
+  img.alt = p.caption || '';
+  img.draggable = false;
+  img.onerror = function() { this.onerror = null; this.src = placeholderPhoto(i); };
+  const sp = document.createElement('span');
+  sp.textContent = p.caption || '';
+  pol.appendChild(img);
+  pol.appendChild(sp);
+  card.appendChild(pol);
+  ring.appendChild(card);
+});
+layout3D();
+window.addEventListener('resize', layout3D);
+
+window.toggle3DLayout = function() {
+  layoutMode = (layoutMode === 'ring') ? 'helix' : 'ring';
+  $('layoutBtn').textContent = (layoutMode === 'ring') ? '🌀 Đổi kiểu: Xoắn ốc' : '🎡 Đổi kiểu: Vòng tròn';
+  layout3D();
+};
+
+let angle = 0, vel = 0, dragging = false, lastX = 0, moved = 0, downTarget = null, s2On = false;
+scene.addEventListener('pointerdown', e => {
+  dragging = true;
+  moved = 0;
+  lastX = e.clientX;
+  downTarget = e.target;
+  vel = 0;
+  scene.classList.add('drag');
+  if (scene.setPointerCapture) {
+    try { scene.setPointerCapture(e.pointerId); } catch (_) {}
+  }
+});
+scene.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  const dx = e.clientX - lastX;
+  lastX = e.clientX;
+  moved += Math.abs(dx);
+  angle += dx * 0.35;
+  vel = dx * 0.35;
+});
+function endDrag() {
+  if (!dragging) return;
+  dragging = false;
+  scene.classList.remove('drag');
+  if (moved < 8) {
+    const card = downTarget && downTarget.closest ? downTarget.closest('.card') : null;
+    if (card) openLB(Number(card.dataset.i));
+  }
+}
+scene.addEventListener('pointerup', endDrag);
+scene.addEventListener('pointercancel', endDrag);
+
+function loop3D() {
+  if (s2On) {
+    if (!dragging) {
+      angle += vel;
+      vel *= 0.95;
+      if (Math.abs(vel) < 0.02) angle += CONFIG.autoRotateSpeed;
+    }
+    ring.style.transform = `translateZ(0px) rotateX(-6deg) rotateY(${angle}deg)`;
+  }
+  requestAnimationFrame(loop3D);
+}
+requestAnimationFrame(loop3D);
+
+/* ---- Lightbox ảnh tập thể ---- */
+const lb = $('lb');
+let curPhotoIdx = 0;
+function openLB(i) {
+  curPhotoIdx = (i + N) % N;
+  const p = CONFIG.photos[curPhotoIdx];
+  const im = $('lbImg');
+  im.onerror = function() { this.onerror = null; this.src = placeholderPhoto(curPhotoIdx); };
+  im.src = p.src;
+  $('lbCap').textContent = `${p.caption || ''} (${curPhotoIdx + 1}/${N})`;
+  lb.classList.add('open');
+}
+$('lbX').addEventListener('click', () => lb.classList.remove('open'));
+$('lbPrev').addEventListener('click', e => { e.stopPropagation(); openLB(curPhotoIdx - 1); });
+$('lbNext').addEventListener('click', e => { e.stopPropagation(); openLB(curPhotoIdx + 1); });
+lb.addEventListener('click', e => { if (e.target === lb) lb.classList.remove('open'); });
+
+/* ==================== MÀN HÌNH 3: 41 HỌC SINH (KHÔNG CHIA TỔ) ==================== */
+const studentGrid = $('studentGrid');
+let currentFilter = 'all';
+let searchKeyword = '';
+
+function renderStudents() {
+  studentGrid.innerHTML = '';
+  const list = CONFIG.students
+    .map((st, idx) => ({ ...st, idx }))
+    .filter(st => {
+      const matchRole =
+        (currentFilter === 'all') ||
+        (currentFilter === 'leader' && st.isLeader) ||
+        (currentFilter === 'member' && !st.isLeader);
+      const q = searchKeyword.toLowerCase();
+      const matchSearch = !q ||
+        st.name.toLowerCase().includes(q) ||
+        (st.role && st.role.toLowerCase().includes(q)) ||
+        String(st.idx + 1) === q;
+      return matchRole && matchSearch;
+    });
+
+  if (list.length === 0) {
+    studentGrid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px;opacity:0.8">Không tìm thấy thành viên phù hợp ✨</div>`;
+    return;
+  }
+
+  list.forEach(st => {
+    const card = document.createElement('div');
+    card.className = 'st-card' + (st.isLeader ? ' leader' : '');
+    card.onclick = () => openStudentModal(st.idx);
+
+    const avWrap = document.createElement('div');
+    avWrap.className = 'st-avatar-wrap';
+    const img = new Image();
+    img.src = st.img;
+    img.alt = st.name;
+    img.onerror = function() { this.onerror = null; this.src = placeholderAvatar(st.name, st.idx); };
+
+    const numTag = document.createElement('span');
+    numTag.className = 'st-num';
+    numTag.textContent = '#' + String(st.idx + 1).padStart(2, '0');
+    avWrap.appendChild(img);
+    avWrap.appendChild(numTag);
+
+    if (st.isLeader) {
+      const badge = document.createElement('span');
+      badge.className = 'st-badge';
+      badge.textContent = '★ Cán sự';
+      avWrap.appendChild(badge);
+    }
+
+    const nm = document.createElement('div');
+    nm.className = 'st-name';
+    nm.textContent = st.name;
+
+    const rl = document.createElement('div');
+    rl.className = 'st-role';
+    rl.textContent = st.role || 'Thành viên 11/7';
+
+    card.appendChild(avWrap);
+    card.appendChild(nm);
+    card.appendChild(rl);
+    studentGrid.appendChild(card);
+  });
+}
+renderStudents();
+
+$('stSearch').addEventListener('input', e => {
+  searchKeyword = e.target.value.trim();
+  renderStudents();
+});
+
+Array.from(document.querySelectorAll('#filterPills .pill[data-filter]')).forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#filterPills .pill[data-filter]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderStudents();
+  });
+});
+
+window.openStudentModal = function(idx) {
+  const st = CONFIG.students[idx];
+  if (!st) return;
+  const im = $('stModalImg');
+  im.onerror = function() { this.onerror = null; this.src = placeholderAvatar(st.name, idx); };
+  im.src = st.img;
+  $('stModalNum').textContent = `Thành viên #${String(idx + 1).padStart(2, '0')} / 41 • Lớp 11/7`;
+  $('stModalName').textContent = st.name;
+  $('stModalRole').textContent = '✦ ' + (st.role || 'Thành viên 11/7') + ' ✦';
+  $('stModalQuote').textContent = `"${st.quote || 'Chúc Cô luôn mạnh khỏe và hạnh phúc!'}"`;
+  $('stModalTo18').textContent = `"${st.to18 || 'Năm lớp 12 tuổi 18 bứt phá và đậu Nguyện vọng 1!'}"`;
+  $('stModal').classList.add('open');
+};
+
+window.closeStudentModal = function(e) {
+  if (!e || e.target === $('stModal')) {
+    $('stModal').classList.remove('open');
+  }
+};
+
+window.pickRandomStudent = function() {
+  const randIdx = Math.floor(Math.random() * CONFIG.students.length);
+  openStudentModal(randIdx);
+};
+
+/* ==================== MÀN HÌNH 4: LỌ SAO KÉP (GỬI CÔ & GỬI TUỔI 18) ==================== */
+const statsRow = $('statsRow');
+CONFIG.stats.forEach(s => {
+  const d = document.createElement('div');
+  d.className = 'stat-box';
+  d.innerHTML = `<div class="stat-num">${s.num}</div><div class="stat-label">${s.label}</div>`;
+  statsRow.appendChild(d);
+});
+
+const tlList = $('tlList');
+CONFIG.timeline.forEach(item => {
+  const d = document.createElement('div');
+  d.className = 'tl-item';
+  d.innerHTML = `<div class="tl-time">${item.time}</div><div class="tl-title">${item.title}</div><div class="tl-desc">${item.desc}</div>`;
+  tlList.appendChild(d);
+});
+
+let jarMode = 'teacher'; // 'teacher' hoặc 'future'
+let lastNoteIdx = -1;
+
+window.setJarMode = function(mode) {
+  jarMode = mode;
+  lastNoteIdx = -1;
+  const isFuture = (mode === 'future');
+  $('tabTeacher').classList.toggle('active', !isFuture);
+  $('tabFuture').classList.toggle('active', isFuture);
+  $('jarVisual').classList.toggle('future', isFuture);
+  $('jarVisual').textContent = isFuture ? '⏳' : '🌟';
+  $('wishBox').classList.toggle('future-border', isFuture);
+  $('jarGuide').textContent = isFuture
+    ? 'Chạm vào Hộp Thời Gian để mở lời nhắn gửi bản thân năm Lớp 12 (Tuổi 18)'
+    : 'Chạm vào Lọ Sao để bốc ngẫu nhiên tâm thư gửi Cô GVCN hiện tại';
+  drawStarNote();
+};
+
+window.drawStarNote = function() {
+  // Kết hợp cả danh sách mẫu và lời nhắn của 41 học sinh để phong phú hơn
+  const pool = (jarMode === 'teacher')
+    ? CONFIG.teacherWishes.concat(CONFIG.students.slice(0, 12).map(s => ({ from: s.name + ' (' + s.role + ')', text: s.quote })))
+    : CONFIG.future18Wishes.concat(CONFIG.students.slice(0, 12).map(s => ({ from: s.name + ' gửi tuổi 18', text: s.to18 })));
+
+  if (!pool.length) return;
+  let idx = Math.floor(Math.random() * pool.length);
+  if (pool.length > 1 && idx === lastNoteIdx) {
+    idx = (idx + 1) % pool.length;
+  }
+  lastNoteIdx = idx;
+  const item = pool[idx];
+  const box = $('wishBox');
+  box.style.transform = 'scale(0.96)';
+  setTimeout(() => {
+    $('wishAuthor').textContent = (jarMode === 'teacher' ? '🌸 Tâm thư gửi Cô từ: ' : '⏳ Hẹn ước Tuổi 18 từ: ') + item.from;
+    $('wishText').textContent = item.text;
+    box.style.transform = 'scale(1)';
+  }, 140);
+  spawnHearts(innerWidth / 2, innerHeight * 0.36, 10);
+};
+
+/* ==================== ÂM THANH (CÓ NHẠC HỘP DỰ PHÒNG) ==================== */
+const audio = new Audio(CONFIG.music);
+audio.loop = true;
+audio.volume = CONFIG.musicVolume;
+const vinyl = $('vinyl');
+let useSynth = false, synthTimer = null, audioCtx = null;
+
+function startMusicBoxFallback() {
+  if (synthTimer) return;
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return;
+  if (!audioCtx) audioCtx = new Ctx();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  const notes = [523.25, 659.25, 783.99, 1046.5, 880, 783.99, 659.25, 587.33];
+  let idx = 0;
+  vinyl.classList.add('on');
+  synthTimer = setInterval(() => {
+    if (document.hidden) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = notes[idx++ % notes.length];
+    const now = audioCtx.currentTime;
+    gain.gain.setValueAtTime(0.001, now);
+    gain.gain.exponentialRampToValueAtTime(0.07, now + 0.04);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now + 1.25);
+  }, 450);
+}
+
+function stopMusicBoxFallback() {
+  if (synthTimer) { clearInterval(synthTimer); synthTimer = null; }
+  vinyl.classList.remove('on');
+}
+
+function startAudio() {
+  if (useSynth) { startMusicBoxFallback(); return; }
+  try {
+    const p = audio.play();
+    if (p && typeof p.then === 'function') {
+      p.then(() => vinyl.classList.add('on')).catch(() => {
+        useSynth = true;
+        startMusicBoxFallback();
+      });
+    } else {
+      vinyl.classList.add('on');
+    }
+  } catch (_) {
+    useSynth = true;
+    startMusicBoxFallback();
+  }
+}
+
+audio.addEventListener('error', () => { useSynth = true; });
+audio.addEventListener('play', () => vinyl.classList.add('on'));
+audio.addEventListener('pause', () => vinyl.classList.remove('on'));
+
+vinyl.addEventListener('click', () => {
+  if (useSynth) {
+    synthTimer ? stopMusicBoxFallback() : startMusicBoxFallback();
+  } else {
+    audio.paused ? startAudio() : audio.pause();
+  }
+});
+
+/* ==================== ĐIỀU HƯỚNG MÀN HÌNH & DOCK MENU ==================== */
+let fxMode = 'fireflies';
+window.switchTab = function(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  document.querySelectorAll('#navDock .nav-item').forEach(b => b.classList.toggle('active', b.dataset.target === id));
+
+  s2On = (id === 's2');
+  fxMode = (id === 's1') ? 'fireflies' : 'petals';
+  fxInit();
+
+  const dock = $('navDock');
+  if (id === 's1') {
+    dock.classList.remove('show');
+    stopTyping();
+  } else {
+    dock.classList.add('show');
+  }
+
+  if (id === 's5') {
+    startTyping();
+  } else {
+    stopTyping();
+  }
+};
+
+let opening = false;
+window.openMemory = function() {
+  if (opening) return;
+  opening = true;
+  startAudio();
+  vinyl.classList.add('show');
+  $('envBox').classList.add('open');
+  setTimeout(() => {
+    switchTab('s2');
+    setTimeout(() => {
+      $('envBox').classList.remove('open');
+      opening = false;
+    }, 600);
+  }, 550);
+};
+
+/* ==================== HIỆU ỨNG GÕ CHỮ (MÀN HÌNH 5) ==================== */
+let tTimer = null;
+const typed = $('typed'), sign = $('sign'), skipBtn = $('skipBtn');
+const fullText = CONFIG.letter.paragraphs.join('\n\n');
+
+function stopTyping() {
+  clearTimeout(tTimer);
+  tTimer = null;
+}
+
+window.finishTyping = function() {
+  stopTyping();
+  typed.textContent = fullText;
+  sign.classList.add('show');
+  skipBtn.style.display = 'none';
+  $('paper').scrollTop = $('paper').scrollHeight;
+};
+
+function startTyping() {
+  stopTyping();
+  typed.textContent = '';
+  sign.classList.remove('show');
+  skipBtn.style.display = 'inline-block';
+
+  const caret = document.createElement('span');
+  caret.className = 'caret';
+  const tn = document.createTextNode('');
+  typed.appendChild(tn);
+  typed.appendChild(caret);
+
+  let i = 0;
+  (function tick() {
+    if (i >= fullText.length) {
+      caret.remove();
+      sign.classList.add('show');
+      skipBtn.style.display = 'none';
+      return;
+    }
+    tn.nodeValue += fullText[i++];
+    $('paper').scrollTop = $('paper').scrollHeight;
+    const ch = fullText[i - 1];
+    tTimer = setTimeout(tick, CONFIG.typeSpeedMs + (/[.,!?]/.test(ch) ? 180 : 0));
+  })();
+}
+
+let heartCount = 117;
+window.triggerHeartRain = function(e) {
+  heartCount++;
+  $('heartCount').textContent = heartCount;
+  const r = e.currentTarget.getBoundingClientRect();
+  spawnHearts(r.left + r.width / 2, r.top, 15);
+};
+
+/* ==================== HIỆU ỨNG CANVAS (ĐOM ĐÓM, HOA RƠI, MƯA TIM) ==================== */
+const cv = $('fx'), cx = cv.getContext('2d');
+let W = innerWidth, H = innerHeight, DPR = Math.min(window.devicePixelRatio || 1, 2);
+let parts = [], bursts = [];
+
+function fit() {
+  W = innerWidth;
+  H = innerHeight;
+  cv.width = W * DPR;
+  cv.height = H * DPR;
+  cx.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+fit();
+window.addEventListener('resize', fit);
+
+function mk() {
+  if (fxMode === 'fireflies') {
+    return {
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 2.4 + 0.8,
+      vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
+      ph: Math.random() * 6.28, t: 'dot'
+    };
+  }
+  return {
+    x: Math.random() * W, y: -20 - Math.random() * H * 0.5,
+    r: Math.random() * 8 + 6,
+    vx: (Math.random() - 0.3) * 0.6, vy: Math.random() * 0.9 + 0.5,
+    rot: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.03,
+    ph: Math.random() * 6.28,
+    t: ['petal', 'petal', 'heart', 'dot'][Math.floor(Math.random() * 4)]
+  };
+}
+
+function fxInit() {
+  const n = (fxMode === 'fireflies') ? (isMobile ? 35 : 65) : (isMobile ? 20 : 38);
+  parts = [];
+  for (let i = 0; i < n; i++) {
+    const p = mk();
+    if (fxMode !== 'fireflies') p.y = Math.random() * H;
+    parts.push(p);
+  }
+}
+fxInit();
+
+function spawnHearts(x, y, count) {
+  for (let i = 0; i < count; i++) {
+    bursts.push({
+      x: x + (Math.random() - 0.5) * 40,
+      y: y,
+      vx: (Math.random() - 0.5) * 3.2,
+      vy: -(Math.random() * 3.2 + 1.6),
+      r: Math.random() * 7 + 6,
+      life: 1.1
+    });
+  }
+}
+
+function drawHeart(x, y, s) {
+  cx.beginPath();
+  cx.moveTo(x, y + s * 0.3);
+  cx.bezierCurveTo(x, y - s * 0.3, x - s, y - s * 0.3, x - s, y + s * 0.3);
+  cx.bezierCurveTo(x - s, y + s * 0.8, x, y + s * 1.1, x, y + s * 1.4);
+  cx.bezierCurveTo(x, y + s * 1.1, x + s, y + s * 0.8, x + s, y + s * 0.3);
+  cx.bezierCurveTo(x + s, y - s * 0.3, x, y - s * 0.3, x, y + s * 0.3);
+  cx.fill();
+}
+
+function fxLoop() {
+  requestAnimationFrame(fxLoop);
+  if (document.hidden) return;
+  cx.clearRect(0, 0, W, H);
+  for (let i = 0; i < parts.length; i++) {
+    const p = parts[i];
+    p.ph += 0.03;
+    if (p.t === 'dot') {
+      p.x += p.vx; p.y += p.vy;
+      const a = 0.35 + 0.55 * Math.abs(Math.sin(p.ph));
+      cx.fillStyle = `rgba(255, 226, 150, ${a})`;
+      cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.283); cx.fill();
+      if (p.x < -10) p.x = W + 10; if (p.x > W + 10) p.x = -10;
+      if (fxMode === 'fireflies') {
+        if (p.y < -10) p.y = H + 10; if (p.y > H + 10) p.y = -10;
+      } else if (p.y > H + 20) Object.assign(p, mk());
+    } else {
+      p.x += p.vx + Math.sin(p.ph) * 0.5;
+      p.y += p.vy; p.rot += p.vr;
+      cx.save(); cx.translate(p.x, p.y); cx.rotate(p.rot);
+      if (p.t === 'heart') {
+        cx.fillStyle = 'rgba(255, 120, 170, 0.8)';
+        drawHeart(0, -p.r * 0.5, p.r * 0.55);
+      } else {
+        cx.fillStyle = 'rgba(255, 190, 215, 0.85)';
+        cx.beginPath(); cx.ellipse(0, 0, p.r * 0.6, p.r, 0, 0, 6.283); cx.fill();
+      }
+      cx.restore();
+      if (p.y > H + 20) Object.assign(p, mk());
+    }
+  }
+  for (let i = bursts.length - 1; i >= 0; i--) {
+    const b = bursts[i];
+    b.x += b.vx; b.y += b.vy; b.life -= 0.022;
+    if (b.life <= 0) { bursts.splice(i, 1); continue; }
+    cx.fillStyle = `rgba(255, 105, 160, ${Math.min(1, b.life)})`;
+    drawHeart(b.x, b.y, b.r * 0.6);
+  }
+}
+requestAnimationFrame(fxLoop);
+</script>
+</body>
+</html>
